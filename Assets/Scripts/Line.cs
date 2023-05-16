@@ -25,8 +25,8 @@ public class Line : MonoBehaviour
             return;
 
         //float lineLength = Vector3.Distance(Start, End);
-        Vector3 previousSisterLeft = Vector3.zero;
-        Vector3 previousSisterRight = Vector3.zero;
+        Vector3 previousInclinationLeft = Vector3.zero;
+        Vector3 previousInclinationRight = Vector3.zero;
         foreach (LineEdge point in _lineEdgePoints)
         {
             // Flatten 3D points to a 2D plane, and calculate position in between.
@@ -36,24 +36,24 @@ public class Line : MonoBehaviour
             Gizmos.DrawWireSphere(posOnLine, 0.1f);
             
             // Draw sister points.
-            Vector3 leftSister = GetSisterPoint(posOnLine, End, point.RotationDegreesLeft, point.DistanceLeft);
-            Vector3 rightSister = GetSisterPoint(posOnLine, End, point.RotationDegreesRight, point.DistanceRight);
+            Vector3 leftInclination = GetInclinationPoint(posOnLine, End, point.RotationDegreesLeft, point.DistanceLeft);
+            Vector3 rightInclination = GetInclinationPoint(posOnLine, End, point.RotationDegreesRight, point.DistanceRight);
             
             // Draw sister lines.
             Gizmos.color = Color.green;
             
-            if(previousSisterLeft != Vector3.zero)
-                Gizmos.DrawLine(previousSisterLeft, leftSister);
+            if(previousInclinationLeft != Vector3.zero)
+                Gizmos.DrawLine(previousInclinationLeft, leftInclination);
             
-            if(previousSisterRight != Vector3.zero)
-                Gizmos.DrawLine(previousSisterRight, rightSister);
+            if(previousInclinationRight != Vector3.zero)
+                Gizmos.DrawLine(previousInclinationRight, rightInclination);
             
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(leftSister, 0.05f);
-            Gizmos.DrawWireSphere(rightSister, 0.05f);
+            Gizmos.DrawWireSphere(leftInclination, 0.05f);
+            Gizmos.DrawWireSphere(rightInclination, 0.05f);
 
-            previousSisterLeft = leftSister;
-            previousSisterRight = rightSister;
+            previousInclinationLeft = leftInclination;
+            previousInclinationRight = rightInclination;
         }
     }
 
@@ -79,7 +79,7 @@ public class Line : MonoBehaviour
     }
     
     
-    private Vector3 GetSisterPoint(Vector3 parentPoint, Vector3 lineEnd, float rotationDegrees, float distance)
+    private Vector3 GetInclinationPoint(Vector3 parentPoint, Vector3 lineEnd, float rotationDegrees, float distance)
     {
         // Temporarily store rot and pos to current transform.
         transform.position = parentPoint;
